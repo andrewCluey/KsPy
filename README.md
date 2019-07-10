@@ -12,3 +12,4 @@ ks.cfg currently configures the following settings:
 - auto mount the ISO to a specified server and power on (possibly change boot order of server to boot from ISO first).
 - expand ks.cfg file to finalise more host config (hardening, users, AD etc).
 - move ks.cfg to a separate template file of some sort. 
+- error handling in functions. 
