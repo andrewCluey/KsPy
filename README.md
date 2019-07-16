@@ -13,3 +13,14 @@ ks.cfg currently configures the following settings:
 - expand ks.cfg file to finalise more host config (hardening, users, AD etc).
 - move ks.cfg to a separate template file of some sort. 
 - error handling in functions. 
+
+
+# Running KsPy
+- Save the parent directory 'KsPy' to your local file system.
+- Edit the input parameters in the '__main__.py' file.
+- Run the following commend from your shell:
+
+```
+python KsPy
+```
+- You will be prompted to enter a password for the new esxi host.

@@ -1,5 +1,7 @@
-import requests
 # Import standard python modules.
+import requests
+import getpass
+from passlib.hash import sha512_crypt
 try:
     from cStringIO import StringIO as BytesIO
 except ImportError:
@@ -8,7 +10,14 @@ except ImportError:
 from kspy.pycdlib import pycdlib
 
 
-def create_ks(install_type,esxi_hostname,esxi_ip,esxi_subnet,esxi_gateway,esxi_dns1):
+def pw_crypt():
+    ''' Function to hash a given string which is then returned '''
+    pw = getpass.getpass(prompt='Enter the proposed esxi password: ')
+    resp = sha512_crypt.hash(pw)
+    return resp
+
+
+def create_ks(install_type,esxi_hostname,esxi_ip,esxi_subnet,esxi_gateway,esxi_dns1,root_pw):
     ''' Description: creates the kickstart config file based on user inputs.
         :type install_type: String
         :param install_type: Is this a new installation or upgrade?
@@ -53,13 +62,16 @@ install --firstdisk --preservevmfs
     #Convert variables to lower case.
     esxi_hostname = esxi_hostname.lower()
     install_type = install_type.lower()
+    #root_pw = "$1$x9akAF9G$5gnoIH.Clyo/B5BEhg0ox1"
 
     # Read encrypted password from file.
     # file can contain the encrypted password ONLY!
-    with open ('misc.txt') as file_object:
-        data = line.strip()
-        if data: # if not empty
-            root_pw = data
+    #with open ('misc.txt') as file_object:
+     #   for line in file_object:
+      #      data = line.strip()
+       # if data: # if not empty
+        #    root_pw = data
+         #   print(root_pw)
 
 # Create Kickstart file - Creates array with content, then written to text
     mod_text = f'''
@@ -187,5 +199,6 @@ def main(install_type, slot, host_name, host_ip, host_subnet, host_gw, host_dns)
         :rtype:
     """
     path = stage_slot(slot)
-    conf = create_ks(install_type, host_name, host_ip, host_subnet, host_gw, host_dns)
+    root_pw = pw_crypt()
+    conf = create_ks(install_type, host_name, host_ip, host_subnet, host_gw, host_dns, root_pw)
     iso_mod(path, conf, 'KS.CFG')
