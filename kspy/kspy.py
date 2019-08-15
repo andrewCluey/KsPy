@@ -11,7 +11,7 @@ from kspy.pycdlib import pycdlib
 
 
 def pw_crypt():
-    ''' Function to hash a given string which is then returned '''
+    ''' Function to hash a given string. hashed string is then returned '''
     pw = getpass.getpass(prompt='Enter the proposed esxi password: ')
     resp = sha512_crypt.hash(pw)
     return resp
@@ -62,16 +62,7 @@ install --firstdisk --preservevmfs
     #Convert variables to lower case.
     esxi_hostname = esxi_hostname.lower()
     install_type = install_type.lower()
-    #root_pw = "$1$x9akAF9G$5gnoIH.Clyo/B5BEhg0ox1"
 
-    # Read encrypted password from file.
-    # file can contain the encrypted password ONLY!
-    #with open ('misc.txt') as file_object:
-     #   for line in file_object:
-      #      data = line.strip()
-       # if data: # if not empty
-        #    root_pw = data
-         #   print(root_pw)
 
 # Create Kickstart file - Creates array with content, then written to text
     mod_text = f'''
@@ -91,10 +82,6 @@ reboot
 # Firstboot
 %firstboot --interpreter=busybox
 sleep 30
-
-# Disable IPv6
-esxcli network ip set --ipv6-enabled=false
-esxcli system shutdown reboot -d 60 -r "making IPv6 config changes"
 
 # Enter Maintenance mode
 vim-cmd hostsvc/maintenance_mode_enter
@@ -140,7 +127,6 @@ reboot
 
 
 def stage_slot(slot):
-
     ''' Description: Which staging slot (ISO Image) is to be used.
     :type slot: String. 
     :param slot: Must be either '1' or '2'

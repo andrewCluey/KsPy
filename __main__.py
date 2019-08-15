@@ -1,23 +1,23 @@
 from kspy import kspy
 
 '''
-(install_type, 
-    slot, 
-    host_name, 
-    host_ip, 
-    host_subnet, 
-    host_gw, 
+(install_type,
+    slot,
+    host_name,
+    host_ip,
+    host_subnet,
+    host_gw,
     host_dns)
 
 '''
 
 def main():
-    kspy.main('install', 
-    '1', 
-    'sample-host01', 
-    '192.168.1.22', 
-    '255.255.255.0', 
-    '192.168.1.1', 
+    kspy.main('install',
+    '1',
+    'sample-host01',
+    '192.168.1.22',
+    '255.255.255.0',
+    '192.168.1.1',
     '192.168.1.53')
 
 
