@@ -1,4 +1,4 @@
-# ksPy
+# KsPy
 
 Simple Python package that will accept user input (such as a proposed esxi password), creates a kickstart file that is then saved to a vSphere ISO image.
 vSphere ISO image can then be mounted to a physical server for the unattended deployment to start.
