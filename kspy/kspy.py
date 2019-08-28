@@ -11,7 +11,7 @@ from kspy.pycdlib import pycdlib
 
 
 def pw_crypt():
-    ''' Function to hash a given string. hashed string is then returned '''
+    ''' Function to hash an inputed string. Hashed string is then saved to variable and returned. '''
     pw = getpass.getpass(prompt='Enter the proposed esxi password: ')
     resp = sha512_crypt.hash(pw)
     return resp
@@ -134,21 +134,23 @@ reboot
     return mod_text
 
 
-def stage_slot(slot):
+def stage_slot(slo,iso_directory):
     ''' Description: Which staging slot (ISO Image) is to be used.
     :type slot: String. 
     :param slot: Must be either '1' or '2'
+
+    :type iso_directory: String
+    :param iso_directory: Directory where the ESXi image (ISO) is stored. Shoul dbe local directory. Example "D:\ISO"
 
     :raises:
 
     :rtype:
     '''
     if slot == '1':
-        iso_image = "E:\ISO\VMware-ESXi-6.7.1_S1.iso"
+        iso_image = f"{iso_directory}\VMware-ESXi-6.7.1_S1.iso"
     elif slot == '2':
-        iso_image = "E:\ISO\VMware-ESXi-6.7.1_S2.iso"
+        iso_image = f"{iso_directory}\VMware-ESXi-6.7.1_S2.iso"
     return iso_image
-
 
 def iso_mod(
             iso_path,
@@ -176,7 +178,8 @@ def main(
             host_ip, 
             host_subnet, 
             host_gw, 
-            host_dns
+            host_dns,
+            iso_directory
         ):
     """ Description
         :type install_type:
@@ -204,7 +207,7 @@ def main(
     
         :rtype:
     """
-    path = stage_slot(slot)
+    path = stage_slot(slot,iso_directory)
     root_pw = pw_crypt()
     conf = create_ks(
                         install_type, 

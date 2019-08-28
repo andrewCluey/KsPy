@@ -7,7 +7,9 @@ from kspy import kspy
     host_ip,
     host_subnet,
     host_gw,
-    host_dns)
+    host_dns,
+    iso_directory
+    )
 
 '''
 
@@ -18,7 +20,8 @@ def main():
     '192.168.100.22',
     '255.255.255.0',
     '192.168.100.1',
-    '192.168.100.53')
+    '192.168.100.53',
+    'D:\ISO')
 
 
 if __name__ == '__main__':
