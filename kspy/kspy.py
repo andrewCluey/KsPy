@@ -17,7 +17,15 @@ def pw_crypt():
     return resp
 
 
-def create_ks(install_type,esxi_hostname,esxi_ip,esxi_subnet,esxi_gateway,esxi_dns1,root_pw):
+def create_ks(
+                install_type,
+                esxi_hostname,
+                esxi_ip,
+                esxi_subnet,
+                esxi_gateway,
+                esxi_dns1,
+                root_pw
+            ):
     ''' Description: creates the kickstart config file based on user inputs.
         :type install_type: String
         :param install_type: Is this a new installation or upgrade?
@@ -142,9 +150,13 @@ def stage_slot(slot):
     return iso_image
 
 
-def iso_mod(iso_path,mod_text,iso_file):
-    ''' Open up a file object.  This causes PyCdlib to parse all of the 
-     metadata on the ISO, which is used for later manipulation.
+def iso_mod(
+            iso_path,
+            mod_text,
+            iso_file
+            ):
+    ''' Opens up an ISO file object. Takes kickstart config text (mod_text), converts to utf-8
+    and writes this to a new ISO file.    
     '''
     
     ksstr = bytes(mod_text, 'utf-8')
@@ -157,7 +169,15 @@ def iso_mod(iso_path,mod_text,iso_file):
     iso.close()
 
 
-def main(install_type, slot, host_name, host_ip, host_subnet, host_gw, host_dns):
+def main(
+            install_type, 
+            slot, 
+            host_name, 
+            host_ip, 
+            host_subnet, 
+            host_gw, 
+            host_dns
+        ):
     """ Description
         :type install_type:
         :param install_type:
@@ -186,5 +206,13 @@ def main(install_type, slot, host_name, host_ip, host_subnet, host_gw, host_dns)
     """
     path = stage_slot(slot)
     root_pw = pw_crypt()
-    conf = create_ks(install_type, host_name, host_ip, host_subnet, host_gw, host_dns, root_pw)
+    conf = create_ks(
+                        install_type, 
+                        host_name, 
+                        host_ip, 
+                        host_subnet, 
+                        host_gw, 
+                        host_dns, 
+                        root_pw
+                    )
     iso_mod(path, conf, 'KS.CFG')

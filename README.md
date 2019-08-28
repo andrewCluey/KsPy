@@ -27,6 +27,7 @@ The unnatended kickstart script (ks.cfg) currently configures the following sett
 ## Future changes
 
 - Make passing arguments easier with validated inputs (argparse/CLi/Menu etc)
+- ~~add parameter to define where to find the base ISO image.~~        * ***DONE*** *
 - auto mount the ISO to a specified server (using redfish/BMC) and power on
 - expand ks.cfg file to finalise more host config (hardening, users, AD etc)
 - move ks.cfg to a separate template file of some sort
@@ -35,6 +36,10 @@ The unnatended kickstart script (ks.cfg) currently configures the following sett
 ## Running KsPy
 
 - Clone the KsPy repository (try to clone KsPy to a system with connectivity to the physical servers BMC)
+- The script is currently hard coded to get the base ESXi iso image from one of the following locations:
+    E:\ISO\VMware-ESXi-6.7.1_S1.iso (slot 1)
+    or
+    E:\ISO\VMware-ESXi-6.7.1_S2.iso (slot 2)
 - Edit the input parameters (see below) in the '__main__.py' file
 - Run the following commend from your shell:
 
