@@ -33,14 +33,21 @@ The unnatended kickstart script (ks.cfg) currently configures the following sett
 - move ks.cfg to a separate template file of some sort
 - error handling in functions
 
+## Software requirements
+
+Passlib python library is required.
+In Windows, this can be instaleld from an elevated CMD prompt and typing:
+
+```shell
+pip install passlib
+```
+
 ## Running KsPy
 
 - Clone the KsPy repository (try to clone KsPy to a system with connectivity to the physical servers BMC)
-- The script is currently hard coded to get the base ESXi iso image from one of the following locations:
-    E:\ISO\VMware-ESXi-6.7.1_S1.iso (slot 1)
-    or
-    E:\ISO\VMware-ESXi-6.7.1_S2.iso (slot 2)
 - Edit the input parameters (see below) in the '__main__.py' file
+- When entering parameters into __main__.py, ensure the iso directory is surrounded with double quotes (" ").
+- Ensure that the Correct ISO images are saved to a local directory (in the directory you specify in the 'iso_directory' parameter).
 - Run the following commend from your shell:
 
 ```shell

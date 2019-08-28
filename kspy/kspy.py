@@ -171,16 +171,14 @@ def iso_mod(
     iso.close()
 
 
-def main(
-            install_type, 
+def main(install_type, 
             slot, 
             host_name, 
             host_ip, 
             host_subnet, 
             host_gw, 
             host_dns,
-            iso_directory
-        ):
+            iso_directory):
     """ Description
         :type install_type:
         :param install_type:
@@ -202,6 +200,9 @@ def main(
     
         :type host_dns:
         :param host_dns:
+
+        :type iso_directory:
+        :param iso_directory:
     
         :raises:
     
