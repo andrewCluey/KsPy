@@ -21,14 +21,14 @@ def main():
     '255.255.255.0',
     '192.168.100.1',
     '192.168.100.53',
-    'D:\ISO')
+    'E:\ISO')
 
 
 if __name__ == '__main__':
     main()
 
 # future enhancements
-# mount iso to server using XCC Redfish ASPI?
+# mount iso to server using XCC Redfish API?
 # Power on server
 # wait for ping response
 # add to vcenter (vCenter REST API OR PyVmOmi)

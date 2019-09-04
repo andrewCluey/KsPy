@@ -16,7 +16,6 @@ def pw_crypt():
     resp = sha512_crypt.hash(pw)
     return resp
 
-
 def create_ks(
                 install_type,
                 esxi_hostname,
@@ -134,17 +133,20 @@ reboot
     return mod_text
 
 
-def stage_slot(slo,iso_directory):
-    ''' Description: Which staging slot (ISO Image) is to be used.
-    :type slot: String. 
-    :param slot: Must be either '1' or '2'
-
-    :type iso_directory: String
-    :param iso_directory: Directory where the ESXi image (ISO) is stored. Shoul dbe local directory. Example "D:\ISO"
-
-    :raises:
-
-    :rtype:
+def stage_slot(slot,iso_directory):
+    ''' 
+    Description: 
+        Outputs the path to the ISO image based on the staging slot entered.
+    :type slot:
+        String 
+    :param slot: 
+        int - Must be either '1' or '2'
+    :type iso_directory: 
+        String
+    :param iso_directory: 
+        Directory where the ESXi image (ISO) is stored. Should be local. Example "E:\ISO"
+    output: 
+        string - full path to the ISO image where the kickstart file will be saved.
     '''
     if slot == '1':
         iso_image = f"{iso_directory}\VMware-ESXi-6.7.1_S1.iso"
@@ -157,8 +159,9 @@ def iso_mod(
             mod_text,
             iso_file
             ):
-    ''' Opens up an ISO file object. Takes kickstart config text (mod_text), converts to utf-8
-    and writes this to a new ISO file.    
+    ''' 
+    Opens up the ISO file object, saves the kickstart config text (mod_text) 
+    and writes this to a new ISO file.
     '''
     
     ksstr = bytes(mod_text, 'utf-8')
@@ -179,7 +182,8 @@ def main(install_type,
             host_gw, 
             host_dns,
             iso_directory):
-    """ Description
+    """ 
+    Description
         :type install_type:
         :param install_type:
     
@@ -220,3 +224,4 @@ def main(install_type,
                         root_pw
                     )
     iso_mod(path, conf, 'KS.CFG')
+    

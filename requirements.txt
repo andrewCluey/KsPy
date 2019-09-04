@@ -7,3 +7,4 @@ cStringIO
 requests
 IO
 pycdlib
+configparser
