@@ -2,10 +2,7 @@
 import requests
 import getpass
 from passlib.hash import sha512_crypt
-try:
-    from cStringIO import StringIO as BytesIO
-except ImportError:
-    from io import BytesIO
+from io import BytesIO
 
 from kspy.pycdlib import pycdlib
 
