@@ -13,16 +13,17 @@ from kspy import kspy
 
 '''
 
-def main():
-    kspy.main('install',
-    '1',
-    'sample-host01',
-    '192.168.100.22',
-    '255.255.255.0',
-    '192.168.100.1',
-    '192.168.100.53',
-    'E:\ISO')
 
+def main():
+    kspy.main(
+        'install',
+        '1',
+        'sample-host01',
+        '192.168.100.22',
+        '255.255.255.0',
+        '192.168.100.1',
+        '192.168.100.53',
+        "E:\ISO")
 
 if __name__ == '__main__':
     main()

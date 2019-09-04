@@ -8,10 +8,14 @@ from kspy.pycdlib import pycdlib
 
 
 def pw_crypt():
-    ''' Function to hash an inputed string. Hashed string is then saved to variable and returned. '''
+    '''
+    Function to hash an inputed string.
+    Hashed string is then saved to variable and returned.
+    '''
     pw = getpass.getpass(prompt='Enter the proposed esxi password: ')
     resp = sha512_crypt.hash(pw)
     return resp
+
 
 def create_ks(
                 install_type,
@@ -22,35 +26,30 @@ def create_ks(
                 esxi_dns1,
                 root_pw
             ):
-    ''' Description: creates the kickstart config file based on user inputs.
-        :type install_type: String
-        :param install_type: Is this a new installation or upgrade?
-		            'install' (existing partitions are removed).
-		            'upgrade' - upgrades esxi, preserves VMFS datastores
-		            'installpreserve' - New install but preserves any VMFS partitions found.
-    
-        :type esxi_hostname: String
-        :param esxi_hostname: The hostname to be applied to the new server.
-    
-        :type esxi_ip: String
-        :param esxi_ip: The management (VMkernel) IP address for the new server.
-    
-        :type esxi_subnet: String
-        :param esxi_subnet: The subnet for the management interface.
-    
-        :type esxi_gateway: String
-        :param esxi_gateway: The gateway for the management interface
-    
-        :type esxi_dns1: String
-        :param esxi_dns1: The IP address of the primary DNS server.
-    
-        :raises:
-    
-        :rtype:'''
+    '''
+    Description: creates the kickstart config file based on user inputs.
+      :type install_type: String
+      :param install_type: Is this a new installation or upgrade?
+       'install' (existing partitions are removed).
+       'upgrade' - upgrades esxi, preserves VMFS datastores
+       'installpreserve' - New install but preserves any VMFS partitions found
+      :type esxi_hostname: String
+      :param esxi_hostname: The hostname to be applied to the new server.
+      :type esxi_ip: String
+      :param esxi_ip: The management (VMkernel) IP address for the new server.
+      :type esxi_subnet: String
+      :param esxi_subnet: The subnet for the management interface.
+      :type esxi_gateway: String
+      :param esxi_gateway: The gateway for the management interface
+      :type esxi_dns1: String
+      :param esxi_dns1: The IP address of the primary DNS server.
+      :raises:
+      :rtype:
+      '''
     if install_type == "install":
         installation = '''
 # clear partitions and install
-clearpart --firstdisk --overwritevmfs      
+clearpart --firstdisk --overwritevmfs
 install --firstdisk --overwritevmfs
 '''
     elif install_type == "upgrade":
@@ -63,7 +62,7 @@ upgrade --firstdisk --preservevmfs
 # New esxi installation - Preserve VMFS
 install --firstdisk --preservevmfs
 '''
-    #Convert variables to lower case.
+# Convert variables to lower case.
     esxi_hostname = esxi_hostname.lower()
     install_type = install_type.lower()
 
@@ -79,7 +78,7 @@ vmaccepteula
 
 rootpw --iscrypted {root_pw}
 
-# Host Network Settings  
+# Host Network Settings
 network --bootproto=static --addvmportgroup=1 --ip={esxi_ip} --netmask={esxi_subnet} --gateway={esxi_gateway} --nameserver={esxi_dns1} --hostname={esxi_hostname}
 reboot
 
@@ -112,7 +111,7 @@ esxcli system settings advanced set -o /UserVars/HostClientCEIPOptIn -i 2
 esxcli network vswitch standard add --vswitch-name=vSwitch0 --ports=24
 esxcli network vswitch standard uplink add --uplink-name=vmnic0 --vswitch-name=vSwitch0
 esxcli network vswitch standard uplink add --uplink-name=vmnic6 --vswitch-name=vSwitch0
-esxcli network vswitch standard policy security set --allow-mac-change=false --allow-forged-transmits=false --allow-promiscuous=false --vswitch-name=vSwitch0 
+esxcli network vswitch standard policy security set --allow-mac-change=false --allow-forged-transmits=false --allow-promiscuous=false --vswitch-name=vSwitch0
 esxcli network vswitch standard policy failover set --active-uplinks=vmnic0 --vswitch-name=vSwitch0
 
 esxcli network vswitch standard portgroup policy failover set --portgroup-name="Management Network" --active-uplinks=vmnic0 --standby-uplinks=vmnic6
@@ -130,20 +129,21 @@ reboot
     return mod_text
 
 
-def stage_slot(slot,iso_directory):
-    ''' 
-    Description: 
+def stage_slot(slot, iso_directory):
+    '''
+    Description:
         Outputs the path to the ISO image based on the staging slot entered.
     :type slot:
-        String 
-    :param slot: 
-        int - Must be either '1' or '2'
-    :type iso_directory: 
         String
-    :param iso_directory: 
-        Directory where the ESXi image (ISO) is stored. Should be local. Example "E:\ISO"
-    output: 
-        string - full path to the ISO image where the kickstart file will be saved.
+    :param slot:
+        int - Must be either '1' or '2'
+    :type iso_directory:
+        String
+    :param iso_directory:
+        Directory where the ESXi image (ISO) is stored.
+        Should be local ("E:\ISO")
+    output:
+        string - full path to the ISO where the kickstart file will be saved.
     '''
     if slot == '1':
         iso_image = f"{iso_directory}\VMware-ESXi-6.7.1_S1.iso"
@@ -151,16 +151,16 @@ def stage_slot(slot,iso_directory):
         iso_image = f"{iso_directory}\VMware-ESXi-6.7.1_S2.iso"
     return iso_image
 
+
 def iso_mod(
             iso_path,
             mod_text,
             iso_file
             ):
-    ''' 
-    Opens up the ISO file object, saves the kickstart config text (mod_text) 
+    '''
+    Opens up the ISO file object, saves the kickstart config text (mod_text)
     and writes this to a new ISO file.
     '''
-    
     ksstr = bytes(mod_text, 'utf-8')
     iso = pycdlib.PyCdlib()
     iso.open(iso_path)
@@ -171,54 +171,38 @@ def iso_mod(
     iso.close()
 
 
-def main(install_type, 
-            slot, 
-            host_name, 
-            host_ip, 
-            host_subnet, 
-            host_gw, 
-            host_dns,
-            iso_directory):
-    """ 
+def main(
+        install_type,
+        slot,
+        host_name,
+        host_ip,
+        host_subnet,
+        host_gw,
+        host_dns,
+        iso_directory):
+    """
     Description
         :type install_type:
         :param install_type:
-    
         :type slot:
         :param slot:
-    
         :type host_name:
         :param host_name:
-    
         :type host_ip:
         :param host_ip:
-    
         :type host_subnet:
         :param host_subnet:
-    
         :type host_gw:
         :param host_gw:
-    
         :type host_dns:
         :param host_dns:
-
         :type iso_directory:
         :param iso_directory:
-    
         :raises:
-    
         :rtype:
     """
-    path = stage_slot(slot,iso_directory)
+    path = stage_slot(slot, iso_directory)
     root_pw = pw_crypt()
-    conf = create_ks(
-                        install_type, 
-                        host_name, 
-                        host_ip, 
-                        host_subnet, 
-                        host_gw, 
-                        host_dns, 
-                        root_pw
-                    )
+    conf = create_ks(install_type, host_name, host_ip, host_subnet, host_gw,
+                     host_dns, root_pw)
     iso_mod(path, conf, 'KS.CFG')
-    
