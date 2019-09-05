@@ -18,11 +18,11 @@ def main():
     kspy.main(
         'install',
         '1',
-        'sample-host01',
-        '192.168.100.22',
+        'bl-hosted-vh-04',
+        '192.168.10.214',
         '255.255.255.0',
-        '192.168.100.1',
-        '192.168.100.53',
+        '192.168.10.1',
+        '192.168.10.40',
         "E:\ISO")
 
 if __name__ == '__main__':
@@ -33,3 +33,6 @@ if __name__ == '__main__':
 # Power on server
 # wait for ping response
 # add to vcenter (vCenter REST API OR PyVmOmi)
+
+
+

@@ -1,7 +1,7 @@
 # Import standard python modules.
 import requests
 import getpass
-from passlib.hash import sha512_crypt
+from passlib.hash import sha512_crypt as sha512
 from io import BytesIO
 
 from kspy.pycdlib import pycdlib
@@ -13,7 +13,7 @@ def pw_crypt():
     Hashed string is then saved to variable and returned.
     '''
     pw = getpass.getpass(prompt='Enter the proposed esxi password: ')
-    resp = sha512_crypt.hash(pw)
+    resp = sha512.hash(pw, rounds=5000)
     return resp
 
 
